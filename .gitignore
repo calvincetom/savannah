@@ -4,3 +4,10 @@
 #virtual environments
 venv/
 .venv/
+
+#cache and migrations
+*__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*/migrations/
