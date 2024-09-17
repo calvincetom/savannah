@@ -12,6 +12,7 @@ phonenumbers==8.13.45
 psycopg2-binary==2.9.9
 pycryptodomex==3.20.0
 pyjwkest==1.4.2
+python-dotenv==1.0.1
 requests==2.32.3
 schema==0.7.7
 six==1.16.0

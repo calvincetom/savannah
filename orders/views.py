@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from orders.models import Customer, Order
 from orders.serializers import CustomerSerializer, OrderSerializer
 
@@ -17,11 +17,14 @@ sms = africastalking.SMS
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 # order viewset
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 
     def perform_create(self, serializer):
         order = serializer.save()

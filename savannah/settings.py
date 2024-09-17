@@ -9,23 +9,24 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+#load .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8017na^fbkylvb!_(owqpy)1os3#c6$@dg$b=&eu0mq^iqpqp@'
+SECRET_KEY = 'SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'mozilla_django_oidc',  # Load after auth
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -56,10 +58,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'savannah.urls'
 
-#Login url
-LOGIN_URL = '/accounts/login/'
-#Login redirect url 
-LOGIN_REDIRECT_URL = '/'
+
 
 # Replace with your domain if you have one.
 SITE_URL = 'http://localhost:8000'
@@ -73,7 +72,7 @@ AFRICASTALKING_API_KEY = 'atsk_20828f8a69664ad1e18f5fbd543e4b6e867523fc51855ef5a
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,7 +130,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Staocalhosttic files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
@@ -140,3 +139,34 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#Login and logout redirect url
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = "/api/v1/"
+LOGOUT_REDIRECT_URL = "/"
+
+# Add 'mozilla_django_oidc' authentication backend
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # Default Django auth
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+)
+
+# OIDC OKTA CONFIG
+OKTA_DOMAIN = os.getenv("OKTA_DOMAIN")
+OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID")
+OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET")
+OIDC_OP_AUTHORIZATION_ENDPOINT = os.getenv("OIDC_OP_AUTHORIZATION_ENDPOINT")
+OIDC_OP_TOKEN_ENDPOINT = os.getenv("OIDC_OP_TOKEN_ENDPOINT")
+OIDC_OP_USER_ENDPOINT = os.getenv("OIDC_OP_USER_ENDPOINT")
+OIDC_OP_JWKS_ENDPOINT = os.getenv("OIDC_OP_JWKS_ENDPOINT")
+OIDC_OP_LOGOUT_ENDPOINT = os.getenv("OIDC_OP_LOGOUT_ENDPOINT")
+
+# OIDC Scopes
+OIDC_RP_SCOPES = 'openid profile email'
+OIDC_RP_SIGN_ALGO = 'RS256'
+
+# OIDC OKTA CONFIG
+AUTH0_CLIENT_ID=os.getenv("AUTH0_CLIENT_ID")
+AUTH0_CLIENT_SECRET=os.getenv("AUTH0_CLIENT_SECRET")
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
