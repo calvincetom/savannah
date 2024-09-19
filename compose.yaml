@@ -1,0 +1,39 @@
+# Comments are provided throughout this file to help you get started.
+# version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    container_name: savannah_container
+# PostgreSQL
+    depends_on:
+      - db
+    environment:
+      # - DJANGO_ENVIRONMENT=development
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_USER=admin
+      - DJANGO_DB_PASSWORD=Konza12345
+      - DJANGO_DB_NAME=savannah
+      - DJANGO_DB_PORT=5432
+      # db:
+      #   condition: service_healthy
+    command: python manage.py runserver 0.0.0.0:8000
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=savannah
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Konza12345
+
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

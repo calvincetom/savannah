@@ -11,3 +11,6 @@ venv/
 *.pyo
 *.pyd
 */migrations/
+
+#docker data
+*/db-data/

@@ -1,0 +1,79 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>savannah-login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-700 flex items-center justify-center h-screen">
+    <div class="w-full max-w-sm bg-white shadow-lg rounded-lg p-8">
+        <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mb-10">Sign in to your account</h2>
+        <form method="post">
+            {% csrf_token %}
+    
+            <!-- Display form non-field errors -->
+            {% if form.non_field_errors %}
+                <div class="mb-4 text-red-600 text-sm">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+    
+            <!-- Username Field with Error Handling -->
+            <div class="mb-6">
+                <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900">
+                    {{ form.username.label }}
+                </label>
+                {% render_field form.username class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300" placeholder="Enter your username" %}
+    
+                <!-- Display field errors for username -->
+                {% if form.username.errors %}
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ form.username.errors }}
+                    </p>
+                {% endif %}
+            </div>
+    
+            <!-- Password Field with Error Handling -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between">
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900">
+                        {{ form.password.label }}
+                    </label>
+                    <div class="text-sm">
+                      <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                    </div>
+                </div>
+                {% render_field form.password class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300" placeholder="Enter your password" %}
+    
+                <!-- Display field errors for password -->
+                {% if form.password.errors %}
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ form.password.errors }}
+                    </p>
+                {% endif %}
+            </div>
+    
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                Log In
+            </button>
+    
+            <!-- Alternative Auth Option -->
+            <br><br>
+            <a href="{% url 'oidc_authentication_init' %}">
+                <button type="button" class="mb-6 w-full bg-indigo-900 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Log In with Auth0 Instead
+                </button>
+            </a>
+        </form>
+    </div>
+    
+</body>
+
+</html>
