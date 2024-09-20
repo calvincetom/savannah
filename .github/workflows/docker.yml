@@ -35,7 +35,7 @@ jobs:
           - e POSTGRES_USER=${{ SECRETS.POSTGRES_USER }} \
           - e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
           - e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
-          savannah_container
+          docker-compose up -d
 
     - name: Verify Container is running
       run: docker ps
