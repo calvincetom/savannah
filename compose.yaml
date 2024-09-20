@@ -13,11 +13,11 @@ services:
       - db
     environment:
       # - DJANGO_ENVIRONMENT=development
-      - DJANGO_DB_HOST=db
-      - DJANGO_DB_USER=admin
-      - DJANGO_DB_PASSWORD=Konza12345
-      - DJANGO_DB_NAME=savannah
-      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_HOST=${DJANGO_DB_HOST}
+      - DJANGO_DB_USER=${DJANGO_DB_USER}
+      - DJANGO_DB_PASSWORD=${DJANGO_DB_PASSWORD}
+      - DJANGO_DB_NAME=${DJANGO_DB_NAME}
+      - DJANGO_DB_PORT=${DJANGO_DB_PORT}
       # db:
       #   condition: service_healthy
     command: python manage.py runserver 0.0.0.0:8000
@@ -28,12 +28,14 @@ services:
     volumes:
       - ./db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=savannah
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=Konza12345
+      - POSTGRES_DB: ${POSTGRES_DB}
+      - POSTGRES_USER: ${POSTGRES_USER}
+      - POSTGRES_PASSWORD: ${POSTGRES_DB}
 
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
+volumes:
+  db-data:
