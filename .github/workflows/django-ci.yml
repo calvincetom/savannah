@@ -64,8 +64,11 @@ jobs:
     - name: Run migrations
       run: docker-compose run app python manage.py migrate
 
-    - name: Run tests
-      run: docker-compose run app python manage.py test
+    - name: Run tests with coverage
+      run: |
+        docker exec -it savannah-api coverage run --source='.' manage.py test
+        docker exec -it savannah-api coverage report --fail-under=80
+    
 
     - name: Stop containers
       if: always()
