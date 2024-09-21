@@ -24,13 +24,9 @@ ARG UID=10001
 # create non-root user
 RUN adduser --disabled-password --gecos "" --uid $UID appuser
 USER appuser
-#5 Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
-# Leverage a bind mount to requirements.txt to avoid having to copy them into`
-# into this layer.
-RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    python -m pip install -r requirements.txt
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 #6 Copy the source code into the container.
 COPY . .
@@ -39,4 +35,4 @@ COPY . .
 EXPOSE 8000
 
 # # CMD TO RUN APP
-# CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
+CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
