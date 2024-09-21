@@ -62,10 +62,10 @@ jobs:
       run: docker-compose ps
 
     - name: Run migrations
-      run: docker-compose run server python manage.py migrate
+      run: docker-compose run app python manage.py migrate
 
     - name: Run tests
-      run: docker-compose run server python manage.py test
+      run: docker-compose run app python manage.py test
 
     - name: Stop containers
       if: always()
