@@ -25,6 +25,8 @@ ARG UID=10001
 RUN adduser --disabled-password --gecos "" --uid $UID appuser
 USER appuser
 
+RUN pip install coverage
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
