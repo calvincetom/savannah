@@ -3,7 +3,8 @@
 # Comments are provided throughout this file to help you get started
 #1. Base Image
 ARG PYTHON_VERSION=3.10.12
-FROM python:${PYTHON_VERSION}-slim as base
+FROM python:${PYTHON_VERSION}-slim AS base 
+# Consistent casing for 'AS'
 
 #2. Set Environment Variables
 # Prevents Python from writing pyc files.
