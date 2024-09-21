@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   db:
@@ -36,7 +35,7 @@ services:
       - DJANGO_DB_PASSWORD=Host24
       - DJANGO_DB_NAME=savannah
       - DJANGO_DB_PORT=5432
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     
     networks:
       - savannah-network
