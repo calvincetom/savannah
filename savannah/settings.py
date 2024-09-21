@@ -1,6 +1,7 @@
 """
 Django settings for savannah project.
 """
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -13,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "SECRET_KEY"
+SECRET_KEY = "sv-_ktzhvs4h^06udq@!v$*um(ko%4jhx-us1j$3hvgj3&+b_f"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,10 +87,10 @@ WSGI_APPLICATION = "savannah.wsgi.application"
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "savannah",
-        'USER': "admin",
-        'PASSWORD': 'Konza12345',
-        'HOST': 'localhost',
+        'NAME': 'savannah',
+        'USER': 'admin',
+        'PASSWORD': 'Host24',
+        'HOST':'db',
         'PORT': 5432
     }
 }

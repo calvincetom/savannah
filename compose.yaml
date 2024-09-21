@@ -2,40 +2,42 @@
 # version: '3.8'
 
 services:
-  server:
-    build:
-      context: .
-    ports:
-      - 8000:8000
-    container_name: savannah_container
-# PostgreSQL
-    depends_on:
-      - db
-    environment:
-      # - DJANGO_ENVIRONMENT=development
-      - DJANGO_DB_HOST=${DJANGO_DB_HOST}
-      - DJANGO_DB_USER=${DJANGO_DB_USER}
-      - DJANGO_DB_PASSWORD=${DJANGO_DB_PASSWORD}
-      - DJANGO_DB_NAME=${DJANGO_DB_NAME}
-      - DJANGO_DB_PORT=${DJANGO_DB_PORT}
-      # db:
-      #   condition: service_healthy
-    command: python manage.py runserver 0.0.0.0:8000
-
   db:
     image: postgres
     restart: always
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_DB}
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Host24
+      - POSTGRES_DB=savannah
 
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  app:
+    build: 
+      context: .
+    ports:
+      - 8000:8000
+    container_name: savannah-api
+# PostgreSQL
+    depends_on:
+      - db
+    environment:
+      # - DJANGO_ENVIRONMENT=development
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_USER=admin
+      - DJANGO_DB_PASSWORD=Host24
+      - DJANGO_DB_NAME=savannah
+      - DJANGO_DB_PORT=5432
+      # db:
+      #   condition: service_healthy
+    command: python manage.py runserver 0.0.0.0:8000
+
+
 volumes:
   db-data:
