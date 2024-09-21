@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'savannah',
         'USER': 'admin',
         'PASSWORD': 'Host24',
-        'HOST':'localhost',
+        'HOST':'db',
         'PORT': 5432
     }
 }
