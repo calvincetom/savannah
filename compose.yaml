@@ -1,4 +1,4 @@
-# version: '3.8'
+version: '3.8'
 
 services:
   db:
@@ -17,27 +17,33 @@ services:
       timeout: 5s
       retries: 5
 
+    networks:
+      - savannah-network
+
   app:
     restart: always
     build: 
       context: .
     ports:
-      - 8000:8000
+      - "8000:8000"
     container_name: savannah-api
-# PostgreSQL
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      # - DJANGO_ENVIRONMENT=development
       - DJANGO_DB_HOST=db
       - DJANGO_DB_USER=admin
       - DJANGO_DB_PASSWORD=Host24
       - DJANGO_DB_NAME=savannah
       - DJANGO_DB_PORT=5432
-      # db:
-      #   condition: service_healthy
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-
+    
+    networks:
+      - savannah-network
 
 volumes:
   db-data:
+
+networks:
+  savannah-network:
+    driver: bridge
