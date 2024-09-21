@@ -70,11 +70,11 @@ jobs:
         docker build -t savannah-api .
     
         # Run tests with coverage
-        docker run --name savannah-api-container savannah-api coverage run --source='.' manage.py test
+        docker run --name savannah-api-container savannah-api python -m coverage run --source='.' manage.py test
         
         # Generate coverage report
         docker cp savannah-api-container:/app/.coverage .
-        docker run --rm -v $(pwd):/app savannah-api coverage report --fail-under=80
+        docker run --rm -v $(pwd):/app savannah-api python -m coverage report --fail-under=80
     
         # Clean up
         docker rm savannah-api-container

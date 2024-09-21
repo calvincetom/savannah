@@ -21,14 +21,15 @@ WORKDIR /app
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
 
-# create non-root user
-RUN adduser --disabled-password --gecos "" --uid $UID appuser
-USER appuser
+# # create non-root user
+# RUN adduser --disabled-password --gecos "" --uid $UID appuser
 
-RUN pip install coverage
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# explicitly install coverage
+RUN pip install coverage
 
 #6 Copy the source code into the container.
 COPY . .
@@ -37,4 +38,4 @@ COPY . .
 EXPOSE 8000
 
 # # CMD TO RUN APP
-CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
+CMD ["gunicorn", "savannah.wsgi:application", "--bind", "0.0.0.0:8000"]
