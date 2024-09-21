@@ -21,6 +21,9 @@ WORKDIR /app
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
 
+# create non-root user
+RUN adduser --disabled-password --gecos "" --uid $UID appuser
+USER appuser
 #5 Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into`
@@ -34,3 +37,6 @@ COPY . .
 
 #7 Expose the port that the application listens on.
 EXPOSE 8000
+
+# CMD TO RUN APP
+CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
