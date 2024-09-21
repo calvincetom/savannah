@@ -127,6 +127,8 @@ USE_TZ = True
 
 # Staocalhosttic files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
+# Define where collected static files will be stored
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
