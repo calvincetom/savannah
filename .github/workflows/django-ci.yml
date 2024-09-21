@@ -61,27 +61,6 @@ jobs:
     - name: Verify Containers are running
       run: docker-compose ps
 
-    - name: Wait for database to be ready
-      run: |
-        docker-compose run app python -c "
-        import sys
-        import psycopg2
-        import time
-        for _ in range(30):
-            try:
-                psycopg2.connect(
-                    dbname=savannah,
-                    user=admin,
-                    password=host24,
-                    host=db,
-                    port=5432
-                )
-                sys.exit(0)
-            except psycopg2.OperationalError:
-                time.sleep(1)
-        sys.exit(1)
-        "
-
     - name: Run migrations
       run: docker-compose run server python manage.py migrate
 
