@@ -28,9 +28,9 @@ services:
     volumes:
       - ./db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB: ${POSTGRES_DB}
-      - POSTGRES_USER: ${POSTGRES_USER}
-      - POSTGRES_PASSWORD: ${POSTGRES_DB}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_DB}
 
     healthcheck:
       test: [ "CMD", "pg_isready" ]

@@ -89,7 +89,7 @@ DATABASES = {
         'NAME': "savannah",
         'USER': "admin",
         'PASSWORD': 'Konza12345',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': 5432
     }
 }
@@ -160,5 +160,3 @@ OIDC_OP_LOGOUT_ENDPOINT = 'https://dev-77rk2zmat13ucvt2.uk.auth0.com/v2/logout'
 # OIDC Scopes
 OIDC_RP_SCOPES = "openid profile email"
 OIDC_RP_SIGN_ALGO = "RS256"
-
-
