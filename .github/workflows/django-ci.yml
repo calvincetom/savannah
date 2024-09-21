@@ -49,14 +49,14 @@ jobs:
         docker-compose build
         docker-compose up -d
       env:
-        DJANGO_DB_HOST: ${{ vars.DJANGO_DB_HOST || secrets.DJANGO_DB_HOST }}
-        DJANGO_DB_USER: ${{ vars.DJANGO_DB_USER || secrets.DJANGO_DB_USER }}
-        DJANGO_DB_PASSWORD: ${{ secrets.DJANGO_DB_PASSWORD }}
-        DJANGO_DB_NAME: ${{ vars.DJANGO_DB_NAME || secrets.DJANGO_DB_NAME }}
-        DJANGO_DB_PORT: ${{ vars.DJANGO_DB_PORT || secrets.DJANGO_DB_PORT }}
-        POSTGRES_DB: ${{ vars.POSTGRES_DB || secrets.POSTGRES_DB }}
-        POSTGRES_USER: ${{ vars.POSTGRES_USER || secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        DJANGO_DB_HOST: 'db'
+        DJANGO_DB_USER: 'admin'
+        DJANGO_DB_PASSWORD: 'Konza12345'
+        DJANGO_DB_NAME: 'savannah'
+        DJANGO_DB_PORT: 5432
+        POSTGRES_DB: savannah
+        POSTGRES_USER: 'admin'
+        POSTGRES_PASSWORD: 'Konza12345'
 
     - name: Verify Containers are running
       run: docker-compose ps
@@ -70,11 +70,11 @@ jobs:
         for _ in range(30):
             try:
                 psycopg2.connect(
-                    dbname='${{ vars.DJANGO_DB_NAME || secrets.DJANGO_DB_NAME }}',
-                    user='${{ vars.DJANGO_DB_USER || secrets.DJANGO_DB_USER }}',
-                    password='${{ secrets.DJANGO_DB_PASSWORD }}',
-                    host='${{ vars.DJANGO_DB_HOST || secrets.DJANGO_DB_HOST }}',
-                    port='${{ vars.DJANGO_DB_PORT || secrets.DJANGO_DB_PORT }}'
+                    dbname='savannah',
+                    user='admin',
+                    password='Konza12345',
+                    host='db',
+                    port='5432'
                 )
                 sys.exit(0)
             except psycopg2.OperationalError:
