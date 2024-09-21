@@ -1,0 +1,93 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
+    
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.17.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
+
+    - name: Debug - Print Environment Variables
+      run: |
+        echo "GitHub Variables:"
+        echo "DJANGO_DB_HOST: ${{ vars.DJANGO_DB_HOST }}"
+        echo "DJANGO_DB_USER: ${{ vars.DJANGO_DB_USER }}"
+        echo "DJANGO_DB_NAME: ${{ vars.DJANGO_DB_NAME }}"
+        echo "DJANGO_DB_PORT: ${{ vars.DJANGO_DB_PORT }}"
+        echo "POSTGRES_DB: ${{ vars.POSTGRES_DB }}"
+        echo "POSTGRES_USER: ${{ vars.POSTGRES_USER }}"
+        
+        echo "GitHub Secrets (only checking if set):"
+        echo "DJANGO_DB_HOST set: ${{ secrets.DJANGO_DB_HOST != '' }}"
+        echo "DJANGO_DB_USER set: ${{ secrets.DJANGO_DB_USER != '' }}"
+        echo "DJANGO_DB_PASSWORD set: ${{ secrets.DJANGO_DB_PASSWORD != '' }}"
+        echo "DJANGO_DB_NAME set: ${{ secrets.DJANGO_DB_NAME != '' }}"
+        echo "DJANGO_DB_PORT set: ${{ secrets.DJANGO_DB_PORT != '' }}"
+        echo "POSTGRES_DB set: ${{ secrets.POSTGRES_DB != '' }}"
+        echo "POSTGRES_USER set: ${{ secrets.POSTGRES_USER != '' }}"
+        echo "POSTGRES_PASSWORD set: ${{ secrets.POSTGRES_PASSWORD != '' }}"
+
+    - name: Build and run with Docker Compose
+      run: |
+        docker-compose build
+        docker-compose up -d
+      env:
+        DJANGO_DB_HOST: ${{ vars.DJANGO_DB_HOST || secrets.DJANGO_DB_HOST }}
+        DJANGO_DB_USER: ${{ vars.DJANGO_DB_USER || secrets.DJANGO_DB_USER }}
+        DJANGO_DB_PASSWORD: ${{ secrets.DJANGO_DB_PASSWORD }}
+        DJANGO_DB_NAME: ${{ vars.DJANGO_DB_NAME || secrets.DJANGO_DB_NAME }}
+        DJANGO_DB_PORT: ${{ vars.DJANGO_DB_PORT || secrets.DJANGO_DB_PORT }}
+        POSTGRES_DB: ${{ vars.POSTGRES_DB || secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ vars.POSTGRES_USER || secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+    - name: Verify Containers are running
+      run: docker-compose ps
+
+    - name: Wait for database to be ready
+      run: |
+        docker-compose run server python -c "
+        import sys
+        import psycopg2
+        import time
+        for _ in range(30):
+            try:
+                psycopg2.connect(
+                    dbname='${{ vars.DJANGO_DB_NAME || secrets.DJANGO_DB_NAME }}',
+                    user='${{ vars.DJANGO_DB_USER || secrets.DJANGO_DB_USER }}',
+                    password='${{ secrets.DJANGO_DB_PASSWORD }}',
+                    host='${{ vars.DJANGO_DB_HOST || secrets.DJANGO_DB_HOST }}',
+                    port='${{ vars.DJANGO_DB_PORT || secrets.DJANGO_DB_PORT }}'
+                )
+                sys.exit(0)
+            except psycopg2.OperationalError:
+                time.sleep(1)
+        sys.exit(1)
+        "
+
+    - name: Run migrations
+      run: docker-compose run server python manage.py migrate
+
+    - name: Run tests
+      run: docker-compose run server python manage.py test
+
+    - name: Stop containers
+      if: always()
+      run: docker-compose down
