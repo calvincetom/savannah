@@ -64,20 +64,10 @@ jobs:
     - name: Run migrations
       run: docker-compose run app python manage.py migrate
 
-    - name: Build and run tests with coverage
+    - name: Run tests with coverage
       run: |
-        # Build the Docker image
-        docker build -t savannah-api .
-    
-        # Run tests with coverage
-        docker run --name savannah-api-container savannah-api python -m coverage run --source='.' manage.py test
-        
-        # Generate coverage report
-        docker cp savannah-api-container:/app/.coverage .
-        docker run --rm -v $(pwd):/app savannah-api python -m coverage report --fail-under=80
-    
-        # Clean up
-        docker rm savannah-api-container
+        docker exec savannah-api coverage run --source='.' manage.py test
+        docker exec savannah-api coverage report --fail-under=80
     
 
     - name: Stop containers
