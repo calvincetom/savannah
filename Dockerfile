@@ -38,5 +38,5 @@ COPY . .
 #7 Expose the port that the application listens on.
 EXPOSE 8000
 
-# CMD TO RUN APP
-CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
+# # CMD TO RUN APP
+# CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
