@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'savannah',
         'USER': 'admin',
         'PASSWORD': 'Host24',
-        'HOST':'db',
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'db'),  # Default to 'db' for local Docker
         'PORT': 5432
     }
 }
