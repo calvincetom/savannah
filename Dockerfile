@@ -38,4 +38,4 @@ COPY . .
 EXPOSE 8000
 
 # # CMD TO RUN APP
-CMD ["gunicorn", "savannah.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD gunicorn savannah.wsgi:application --bind 0.0.0.0:8000
