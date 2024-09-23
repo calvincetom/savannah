@@ -39,4 +39,4 @@ EXPOSE $PORT
 
 # Use JSON format CMD to handle OS signals properly
 # Run migrations before starting the server
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py makemigrations savannah && python manage.py migrate && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
