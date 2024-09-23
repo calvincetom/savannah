@@ -35,7 +35,7 @@ RUN pip install coverage
 COPY . .
 
 #7 Expose the port that the application listens on.
-EXPOSE 8080
+EXPOSE $PORT
 
-# Start Command
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 savannah.wsgi:application
+# Use JSON format CMD to handle OS signals properly
+CMD ["gunicorn", "--bind", ":8000", "--workers", "1", "--threads", "8", "--timeout", "0", "savannah.wsgi:application"]
