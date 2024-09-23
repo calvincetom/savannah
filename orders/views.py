@@ -1,10 +1,10 @@
-"""import settings for africastalking initialization"""
+"""imports for os and africastalking"""
+import os
 import africastalking
 
 # import phone number for international formating
 from phonenumbers import format_number, PhoneNumberFormat
 
-from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.views import View
@@ -15,13 +15,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+
+from dotenv import load_dotenv
+
 from orders.models import Customer, Order
 from orders.serializers import CustomerSerializer, OrderSerializer
 
 
-# Initialize Africastalking Api
+# Load environment variables from .env file
+load_dotenv()
+
+# Initialize Africa's Talking with environment variables
 africastalking.initialize(
-    settings.AFRICASTALKING_USERNAME, settings.AFRICASTALKING_API_KEY
+    os.environ.get('AFRICASTALKING_USERNAME'),
+    os.environ.get('AFRICASTALKING_API_KEY')
 )
 SMS = africastalking.SMS
 
