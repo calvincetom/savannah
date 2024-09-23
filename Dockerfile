@@ -38,4 +38,5 @@ COPY . .
 EXPOSE $PORT
 
 # Use JSON format CMD to handle OS signals properly
-CMD ["gunicorn", "--bind", ":8000", "--workers", "1", "--threads", "8", "--timeout", "0", "savannah.wsgi:application"]
+# Run migrations before starting the server
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
