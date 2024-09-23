@@ -56,7 +56,8 @@ class LogoutView(View):
         # Redirect to Auth0 logout URL
         client_id = '3WejaIcVvmmGaRmTuqsLnEA835SlhMPS'
         auth0_domain = 'dev-77rk2zmat13ucvt2.uk.auth0.com'
+        return_to_url = 'https://savannah-ctrg.onrender.com/accounts/login/'
         return HttpResponseRedirect(
-            f'https://{auth0_domain}/v2/logout?returnTo={reverse("login")}&client_id={client_id}'
+            f'https://{auth0_domain}/v2/logout?returnTo={return_to_url}&client_id={client_id}'
         )
     
