@@ -7,7 +7,7 @@ charset-normalizer==3.3.2
 coverage==7.6.1
 cryptography==43.0.1
 dill==0.3.8
-Django
+Django==5.1.1
 django-oidc-provider==0.8.2
 django-phonenumber-field==8.0.0
 django-widget-tweaks==1.5.0
@@ -39,3 +39,4 @@ tomli==2.0.1
 tomlkit==0.13.2
 typing_extensions==4.12.2
 urllib3==2.2.3
+whitenoise==6.7.0
