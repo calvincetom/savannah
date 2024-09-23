@@ -26,10 +26,14 @@ from orders.serializers import CustomerSerializer, OrderSerializer
 load_dotenv()
 
 # Initialize Africa's Talking with environment variables
-africastalking.initialize(
-    os.environ.get('AFRICASTALKING_USERNAME'),
-    os.environ.get('AFRICASTALKING_API_KEY')
-)
+username = os.environ.get('AFRICASTALKING_USERNAME')
+api_key = os.environ.get('AFRICASTALKING_API_KEY')
+
+# Check if the variables are loaded correctly
+if not username or not api_key:
+    raise RuntimeError("Africa's Talking username or API key not set in environment variables.")
+
+africastalking.initialize(username, api_key)
 SMS = africastalking.SMS
 
 
