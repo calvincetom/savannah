@@ -3,12 +3,18 @@ import africastalking
 
 # import phone number for international formating
 from phonenumbers import format_number, PhoneNumberFormat
+
 from django.conf import settings
-from rest_framework import viewsets, permissions
+from django.shortcuts import redirect
+from django.contrib.auth import logout
 from django.views import View
 from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.contrib.auth import logout
+
+from rest_framework import viewsets, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
 from orders.models import Customer, Order
 from orders.serializers import CustomerSerializer, OrderSerializer
 
@@ -18,6 +24,21 @@ africastalking.initialize(
     settings.AFRICASTALKING_USERNAME, settings.AFRICASTALKING_API_KEY
 )
 SMS = africastalking.SMS
+
+
+class CustomApiRootView(APIView):
+    """Custom API Root View to redirect unauthenticated users."""
+
+    def get(self, request, *args, **kwargs):
+        """Get request Method"""
+        if not request.user.is_authenticated:
+            return redirect('/accounts/login/')  # Change to your signup URL if needed
+        
+        # If authenticated, return the default API root response
+        return Response({
+            'customers': reverse('customer-list', request=request),
+            'orders': reverse('order-list', request=request),
+        })
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
