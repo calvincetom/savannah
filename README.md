@@ -1,4 +1,7 @@
 # Backend Technical Challenge
+Live project is at https://savannah-ctrg.onrender.com/ feel free to interact with the project.
+![image](https://github.com/user-attachments/assets/1e160378-14c2-47c6-9d98-e4971db0f036)
+
 
 ## Project Overview
 
@@ -29,6 +32,8 @@ The project is designed to demonstrate proficiency in backend development, API d
    - OpenID Connect is used for securing the API.
    - Mozilla oidc.
    - Auth0 was used as the provider.
+![image](https://github.com/user-attachments/assets/e2128d55-e9a5-4b62-8573-2aa37f13d2fc)
+
 
 3. **SMS Notification**:
    - When a new order is added, an SMS notification is sent to the customer via Africa’s Talking SMS gateway.
