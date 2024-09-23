@@ -5,6 +5,10 @@ import africastalking
 from phonenumbers import format_number, PhoneNumberFormat
 from django.conf import settings
 from rest_framework import viewsets, permissions
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth import logout
 from orders.models import Customer, Order
 from orders.serializers import CustomerSerializer, OrderSerializer
 
@@ -41,3 +45,16 @@ class OrderViewSet(viewsets.ModelViewSet):
         message = f" Hi {customer.name}, your order for {order.item} of amount {order.amount}, has been placed successfully."
         print(f"sending SMS to {phone_number_international}")
         SMS.send(message, [phone_number_international])  # send sms
+
+class LogoutView(View):
+    """Logout custom view"""
+    def post(self, request, *args, **kwargs):
+        """ Clear the user session if authenticated"""
+        if request.user.is_authenticated:
+            logout(request)
+
+        # Redirect to Auth0 logout URL
+        client_id = '3WejaIcVvmmGaRmTuqsLnEA835SlhMPS'
+        auth0_domain = 'dev-77rk2zmat13ucvt2.uk.auth0.com'  # e.g., your-tenant.auth0.com
+        return HttpResponseRedirect(f'https://{auth0_domain}/v2/logout?returnTo={reverse("login")}&client_id={client_id}')
+    
