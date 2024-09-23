@@ -6,7 +6,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=Host24
       - POSTGRES_DB=savannah
@@ -31,10 +30,10 @@ services:
       db:
         condition: service_healthy
     environment:
-      - DJANGO_DB_HOST=db
+      - DJANGO_DB_HOST=dpg-crnefg08fa8c738enflg-a
       - DJANGO_DB_USER=admin
-      - DJANGO_DB_PASSWORD=Host24
-      - DJANGO_DB_NAME=savannah
+      - DJANGO_DB_PASSWORD=bSrL1zZlcuOSczZLL4ymV5KNIq65Vqsg
+      - DJANGO_DB_NAME=savannah_op7d
       - DJANGO_DB_PORT=5432
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     

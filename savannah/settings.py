@@ -87,10 +87,10 @@ WSGI_APPLICATION = "savannah.wsgi.application"
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'savannah',
+        'NAME': 'savannah_op7d',
         'USER': 'admin',
-        'PASSWORD': 'Host24',
-        'HOST': os.environ.get('DJANGO_DB_HOST', 'db'),  # Default to 'db' for local Docker
+        'PASSWORD': 'bSrL1zZlcuOSczZLL4ymV5KNIq65Vqsg',
+        'HOST': 'dpg-crnefg08fa8c738enflg-a',  # Default to 'db' for local Docker
         'PORT': 5432
     }
 }
