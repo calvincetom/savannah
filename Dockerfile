@@ -35,7 +35,7 @@ RUN pip install coverage
 COPY . .
 
 #7 Expose the port that the application listens on.
-EXPOSE $PORT
+EXPOSE 8000
 
 # Use JSON format CMD to handle OS signals properly
 # Run migrations before starting the server
