@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "sv-_ktzhvs4h^06udq@!v$*um(ko%4jhx-us1j$3hvgj3&+b_f"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -57,10 +57,8 @@ ROOT_URLCONF = "savannah.urls"
 SITE_URL = "http://localhost:8000"
 
 # AFRICASTALKING API CONF
-AFRICASTALKING_USERNAME = "sandbox"
-AFRICASTALKING_API_KEY = (
-    "atsk_20828f8a69664ad1e18f5fbd543e4b6e867523fc51855ef5a98606b4ba562b4f9aae004f"
-)
+AFRICASTALKING_USERNAME = os.environ.get("AFRICASTALKING_USERNAME")
+AFRICASTALKING_API_KEY = os.environ.get("AFRICASTALKING_API_KEY")
 
 
 TEMPLATES = [
@@ -88,11 +86,11 @@ WSGI_APPLICATION = "savannah.wsgi.application"
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'savannah_op7d',
-        'USER': 'admin',
-        'PASSWORD': 'bSrL1zZlcuOSczZLL4ymV5KNIq65Vqsg',
-        'HOST': 'dpg-crnefg08fa8c738enflg-a',  # Default to 'db' for local Docker
-        'PORT': 5432
+        'NAME': os.environ.get('NAME'),
+        'USER': os.environ.get('USER'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('HOST'),  # Use 'localhost' as a default
+        'PORT': os.environ.get('PORT'),  # Use '5432' as a default
     }
 }
 
@@ -149,21 +147,22 @@ AUTHENTICATION_BACKENDS = (
     "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
 )
 
-# OIDC OKTA CONFIG
-AUTH0_CLIENT_ID='3WejaIcVvmmGaRmTuqsLnEA835SlhMPS'
-AUTH0_CLIENT_SECRET='85eRhu74pvhkUgTzqgxHRRC1VbcLjs52AtRyHncosw_NnuR2uSxUfO4nr99DbPfV'
-AUTH0_DOMAIN='dev-77rk2zmat13ucvt2.uk.auth0.com'
+# OIDC Auth0 CONFIG
+AUTH0_CLIENT_ID = os.environ.get('AUTH0_CLIENT_ID', 'default_client_id')
+AUTH0_CLIENT_SECRET = os.environ.get('AUTH0_CLIENT_SECRET', 'default_client_secret')
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN', 'default_domain')
 
-# OIDC OKTA CONFIG
-OKTA_DOMAIN = 'dev-77rk2zmat13ucvt2.uk.auth0.com'
-OIDC_RP_CLIENT_ID = '3WejaIcVvmmGaRmTuqsLnEA835SlhMPS'
-OIDC_RP_CLIENT_SECRET = '85eRhu74pvhkUgTzqgxHRRC1VbcLjs52AtRyHncosw_NnuR2uSxUfO4nr99DbPfV'
-OIDC_OP_AUTHORIZATION_ENDPOINT = 'https://dev-77rk2zmat13ucvt2.uk.auth0.com/authorize'
-OIDC_OP_TOKEN_ENDPOINT = 'https://dev-77rk2zmat13ucvt2.uk.auth0.com/oauth/token'
-OIDC_OP_USER_ENDPOINT = 'https://dev-77rk2zmat13ucvt2.uk.auth0.com/userinfo'
+# OIDC OKTA CONFIG (use the same Auth0 values if applicable)
+OKTA_DOMAIN = os.environ.get('OKTA_DOMAIN', AUTH0_DOMAIN)
+OIDC_RP_CLIENT_ID = os.environ.get('OIDC_RP_CLIENT_ID', AUTH0_CLIENT_ID)
+OIDC_RP_CLIENT_SECRET = os.environ.get('OIDC_RP_CLIENT_SECRET', AUTH0_CLIENT_SECRET)
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = f'https://{AUTH0_DOMAIN}/authorize'
+OIDC_OP_TOKEN_ENDPOINT = f'https://{AUTH0_DOMAIN}/oauth/token'
+OIDC_OP_USER_ENDPOINT = f'https://{AUTH0_DOMAIN}/userinfo'
 OIDC_OP_JWKS_ENDPOINT = f'https://{AUTH0_DOMAIN}/.well-known/jwks.json'
-OIDC_OP_LOGOUT_ENDPOINT = 'https://dev-77rk2zmat13ucvt2.uk.auth0.com/v2/logout'
+OIDC_OP_LOGOUT_ENDPOINT = f'https://{AUTH0_DOMAIN}/v2/logout'
 
 # OIDC Scopes
-OIDC_RP_SCOPES = "openid profile email"
-OIDC_RP_SIGN_ALGO = "RS256"
+OIDC_RP_SCOPES =  'openid profile email'
+OIDC_RP_SIGN_ALGO = 'RS256'
