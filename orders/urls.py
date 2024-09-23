@@ -10,6 +10,6 @@ router.register(r'orders', OrderViewSet)
 
 urlpatterns = [
     # OIDC URLs
-    path('auth/logout/', LogoutView.as_view, name='logout'),
+    path('auth/logout/', LogoutView.as_view(), name='logout'),
     path('oidc/', include('mozilla_django_oidc.urls')),
 ] + router.urls

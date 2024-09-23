@@ -47,14 +47,16 @@ class OrderViewSet(viewsets.ModelViewSet):
         SMS.send(message, [phone_number_international])  # send sms
 
 class LogoutView(View):
-    """Logout custom view"""
+    """Logout custom view."""
     def post(self, request, *args, **kwargs):
-        """ Clear the user session if authenticated"""
+        """Clear the user session if authenticated."""
         if request.user.is_authenticated:
             logout(request)
 
         # Redirect to Auth0 logout URL
         client_id = '3WejaIcVvmmGaRmTuqsLnEA835SlhMPS'
-        auth0_domain = 'dev-77rk2zmat13ucvt2.uk.auth0.com'  # e.g., your-tenant.auth0.com
-        return HttpResponseRedirect(f'https://{auth0_domain}/v2/logout?returnTo={reverse("login")}&client_id={client_id}')
+        auth0_domain = 'dev-77rk2zmat13ucvt2.uk.auth0.com'
+        return HttpResponseRedirect(
+            f'https://{auth0_domain}/v2/logout?returnTo={reverse("login")}&client_id={client_id}'
+        )
     
