@@ -15,10 +15,8 @@ The project is designed to demonstrate proficiency in backend development, API d
 - **Django REST Framework (DRF)**: To create REST APIs.
 - **PostgreSQL**: The database for storing customer and order data.
 - **Africa's Talking**: SMS gateway used for sending notifications.
-- **OpenID Connect**: Used for implementing authentication and authorization.
+- **OpenID Connect**: Used for implementing authentication and authorization. Mozilla OIDC was used
 - **Docker**: For containerization of the application.
-- **Kubernetes**: Container orchestration platform (optional, for deployment).
-- **Ansible**: Configuration management tool (optional, for deployment).
 - **CI/CD**: Automated testing and deployment.
 
 ## Features
@@ -29,6 +27,8 @@ The project is designed to demonstrate proficiency in backend development, API d
 
 2. **Authentication and Authorization**:
    - OpenID Connect is used for securing the API.
+   - Mozilla oidc.
+   - Auth0 was used as the provider.
 
 3. **SMS Notification**:
    - When a new order is added, an SMS notification is sent to the customer via Africa’s Talking SMS gateway.
@@ -67,30 +67,43 @@ The project is designed to demonstrate proficiency in backend development, API d
    OIDC_CLIENT_SECRET=<your_oidc_client_secret>
    OIDC_ISSUER=<your_oidc_issuer_url>
    ```
+   since docker is used you will additionally add these information if you opt to dockerize your application
+   ```
+   # compose variables
+   POSTGRES_USER=<your postgres user>
+   POSTGRES_PASSWORD=<your postgres password>
+   POSTGRES_DB=<your postgresdb name>
+   
+   DJANGO_DB_HOST=<docker db service name> # change the settings db host to this too
+   DJANGO_DB_USER=<same as your postgres user>
+   DJANGO_DB_PASSWORD=<same as your postgres password>
+   DJANGO_DB_NAME=<same as your postgresdb name>
+   DJANGO_DB_PORT=<use the default postgres port number>
+   ```
 
-3. **Install dependencies**:
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Run database migrations**:
+5. **Run database migrations**:
    ```bash
    python manage.py migrate
    ```
 
-5. **Run the application**:
+6. **Run the application**:
    ```bash
    python manage.py runserver
    ```
 
-6. **Run the tests**:
+7. **Run the tests**:
    To run the unit tests with coverage:
    ```bash
    coverage run --source='.' manage.py test
    coverage report
    ```
 
-7. **Deploy the application**:
+8. **Deploy the application**:
    You can deploy the application to any PaaS/FaaS/IaaS of your choice, such as Heroku, AWS, or Google Cloud. Ensure that the environment variables are configured correctly in your deployment environment.
 
 ## API Endpoints
@@ -142,11 +155,6 @@ The SMS sending logic is triggered after an order is created, notifying the cust
 
 - OAuth2/OpenID Connect is used for authentication.
 - Proper handling of API tokens and credentials in environment variables.
-- Web security best practices implemented (e.g., XSS protection).
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Contact
 
