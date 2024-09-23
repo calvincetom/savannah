@@ -6,9 +6,9 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=Host24
-      - POSTGRES_DB=savannah
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
 
     healthcheck:
       test: [ "CMD", "pg_isready" ]
@@ -30,11 +30,11 @@ services:
       db:
         condition: service_healthy
     environment:
-      - DJANGO_DB_HOST=dpg-crnefg08fa8c738enflg-a
-      - DJANGO_DB_USER=admin
-      - DJANGO_DB_PASSWORD=bSrL1zZlcuOSczZLL4ymV5KNIq65Vqsg
-      - DJANGO_DB_NAME=savannah_op7d
-      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_HOST=${DJANGO_DB_HOST}
+      - DJANGO_DB_USER=${DJANGO_DB_USER}
+      - DJANGO_DB_PASSWORD=${DJANGO_DB_PASSWORD}
+      - DJANGO_DB_NAME=${DJANGO_DB_NAME}
+      - DJANGO_DB_PORT=${DJANGO_DB_PORT}
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     
     networks:

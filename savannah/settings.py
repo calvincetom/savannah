@@ -90,7 +90,7 @@ DATABASES = {
         'USER': os.environ.get('USER'),
         'PASSWORD': os.environ.get('PASSWORD'),
         'HOST': os.environ.get('HOST'),  # Use 'localhost' as a default
-        'PORT': os.environ.get('PORT'),  # Use '5432' as a default
+        'PORT': 5432  # Use '5432' as a default
     }
 }
 
