@@ -13,5 +13,5 @@ urlpatterns = [
     path("authorization-code/authenticate/", oidc_views.OIDCAuthenticationRequestView.as_view(), name="oidc_authentication_init"),
     path("authorization-code/callback/", oidc_views.OIDCAuthenticationCallbackView.as_view(), name="oidc_authentication_callback"),
     path('', TemplateView.as_view(template_name='orders/home.html'),  name='home'),
-    path('api/v1/', include('orders.urls')),
+    path('api/v1/', include('orders.urls'), name='dash'),
 ]
