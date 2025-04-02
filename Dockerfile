@@ -26,4 +26,5 @@ EXPOSE 8000
 # Use gunicorn in production
 # CMD ["gunicorn", "savannah.wsgi:application", "--bind", "0.0.0.0:8000"]
 # Update CMD
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python scripts/startup.py && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
+# CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python scripts/startup.py && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "export DJANGO_SETTINGS_MODULE=savannah.settings && python manage.py makemigrations && python manage.py migrate && python scripts/startup.py && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]

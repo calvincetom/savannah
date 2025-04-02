@@ -1,4 +1,10 @@
 import os
+import django
+
+# Configure Django settings before importing models
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'savannah.settings')
+django.setup()
+
 from django.contrib.auth import get_user_model
 
 def create_superuser():
