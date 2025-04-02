@@ -13,19 +13,21 @@ WORKDIR /app
 # COPY scripts/startup.py /app/scripts/
 # Install dependencies first for better layer caching
 COPY requirements.txt .
+
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
 COPY . .
 
 # Install your package in development mode
-RUN pip install -e .
+# RUN pip install -e .
 
 # temporarily to check paths
-RUN find /app -type f
+# RUN find /app -type f
 
 # Check the Python path inside your container
-RUN python -c "import sys; print(sys.path)"
+# RUN python -c "import sys; print(sys.path)"
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV DJANGO_SETTINGS_MODULE=savannah.settings
