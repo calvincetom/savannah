@@ -43,4 +43,4 @@ EXPOSE 8000
 # CMD ["gunicorn", "savannah.wsgi:application", "--bind", "0.0.0.0:8000"]
 # Update CMD
 # CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python scripts/startup.py && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
-CMD ["sh", "-c", "python manage.py makemigrations &&python manage.py migrate && python scripts/startup.py && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python scripts/startup.py && gunicorn savannah.wsgi:application --bind 0.0.0.0:8000"]
