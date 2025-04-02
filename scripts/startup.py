@@ -1,11 +1,15 @@
 import os
+import sys
 import django
 
-# Configure Django settings before importing models
+# Add project to Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'savannah.settings')
 django.setup()
 
 from django.contrib.auth import get_user_model
+
 
 def create_superuser():
     User = get_user_model()
