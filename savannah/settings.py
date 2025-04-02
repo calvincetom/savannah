@@ -86,11 +86,11 @@ WSGI_APPLICATION = "savannah.wsgi.application"
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('NAME'),
-        'USER': os.environ.get('USER'),
-        'PASSWORD': os.environ.get('PASSWORD'),
-        'HOST': os.environ.get('HOST'),  # Use 'localhost' as a default
-        'PORT': 5432  # Use '5432' as a default
+        'NAME': os.environ.get('DJANGO_DB_NAME'),
+        'USER': os.environ.get('DJANGO_DB_USER'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD'),
+        'HOST': os.environ.get('DJANGO_DB_HOST'),  # This should be Render's internal hostname
+        'PORT': os.environ.get('DJANGO_DB_PORT', '5432'),
     }
 }
 
